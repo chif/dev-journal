@@ -1,0 +1,911 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>UE5 Cherry-Pick Tracker — ue5-main → 5.7.4</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;600;700&family=Space+Grotesk:wght@400;500;700&display=swap');
+
+  :root {
+    --bg: #0a0e17;
+    --bg-card: #111827;
+    --bg-card-hover: #1a2235;
+    --border: #1e293b;
+    --border-accent: #334155;
+    --text: #e2e8f0;
+    --text-dim: #64748b;
+    --text-muted: #475569;
+    --accent-red: #f43f5e;
+    --accent-amber: #f59e0b;
+    --accent-green: #10b981;
+    --accent-blue: #3b82f6;
+    --accent-purple: #8b5cf6;
+    --accent-cyan: #06b6d4;
+    --p1: #f43f5e;
+    --p2: #f59e0b;
+    --p3: #8b5cf6;
+    --p4: #06b6d4;
+    --tag-crash: #dc2626;
+    --tag-desync: #ea580c;
+    --tag-physics: #2563eb;
+    --tag-perf: #16a34a;
+    --tag-api: #7c3aed;
+    --tag-feature: #0891b2;
+    --tag-debug: #525252;
+    --tag-newton: #a16207;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Space Grotesk', system-ui, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.6;
+    min-height: 100vh;
+  }
+
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background:
+      radial-gradient(ellipse 80% 50% at 50% -20%, rgba(59,130,246,0.08), transparent),
+      radial-gradient(ellipse 60% 40% at 80% 100%, rgba(139,92,246,0.06), transparent);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .container {
+    position: relative;
+    z-index: 1;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2rem 1.5rem 4rem;
+  }
+
+  /* Header */
+  header {
+    margin-bottom: 3rem;
+    padding-bottom: 2rem;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .header-eyebrow {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.75rem;
+    color: var(--accent-blue);
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    margin-bottom: 0.75rem;
+    opacity: 0;
+    animation: fadeUp 0.5s ease forwards;
+  }
+
+  h1 {
+    font-size: clamp(1.8rem, 4vw, 2.8rem);
+    font-weight: 700;
+    letter-spacing: -0.03em;
+    line-height: 1.15;
+    margin-bottom: 1rem;
+    opacity: 0;
+    animation: fadeUp 0.5s ease 0.1s forwards;
+  }
+
+  h1 .hash-range {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.5em;
+    color: var(--text-dim);
+    font-weight: 400;
+    display: block;
+    margin-top: 0.3rem;
+  }
+
+  .header-meta {
+    display: flex;
+    gap: 2rem;
+    flex-wrap: wrap;
+    font-size: 0.875rem;
+    color: var(--text-dim);
+    opacity: 0;
+    animation: fadeUp 0.5s ease 0.2s forwards;
+  }
+
+  .header-meta span {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+  }
+
+  .header-meta .dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--accent-green);
+    display: inline-block;
+  }
+
+  /* Stats bar */
+  .stats-bar {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    gap: 1rem;
+    margin-bottom: 3rem;
+    opacity: 0;
+    animation: fadeUp 0.5s ease 0.3s forwards;
+  }
+
+  .stat-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 1.25rem;
+    text-align: center;
+    transition: border-color 0.2s, transform 0.2s;
+  }
+
+  .stat-card:hover {
+    border-color: var(--border-accent);
+    transform: translateY(-2px);
+  }
+
+  .stat-number {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 2rem;
+    font-weight: 700;
+    line-height: 1;
+    margin-bottom: 0.3rem;
+  }
+
+  .stat-label {
+    font-size: 0.75rem;
+    color: var(--text-dim);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+  }
+
+  /* Context box */
+  .context-box {
+    background: linear-gradient(135deg, rgba(244,63,94,0.08), rgba(244,63,94,0.02));
+    border: 1px solid rgba(244,63,94,0.2);
+    border-radius: 12px;
+    padding: 1.75rem 2rem;
+    margin-bottom: 3rem;
+    opacity: 0;
+    animation: fadeUp 0.5s ease 0.4s forwards;
+  }
+
+  .context-box h2 {
+    font-size: 1.1rem;
+    color: var(--accent-red);
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .context-box p {
+    font-size: 0.9rem;
+    color: var(--text);
+    margin-bottom: 0.75rem;
+    line-height: 1.7;
+  }
+
+  .context-box ol {
+    padding-left: 1.25rem;
+    font-size: 0.85rem;
+    color: var(--text-dim);
+    line-height: 1.8;
+  }
+
+  .context-box code {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.8em;
+    background: rgba(255,255,255,0.06);
+    padding: 0.15em 0.45em;
+    border-radius: 4px;
+    color: var(--accent-amber);
+  }
+
+  /* Priority sections */
+  .priority-section {
+    margin-bottom: 3rem;
+  }
+
+  .priority-header {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-bottom: 1.25rem;
+    padding-bottom: 0.75rem;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .priority-badge {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.7rem;
+    font-weight: 700;
+    padding: 0.3em 0.7em;
+    border-radius: 6px;
+    letter-spacing: 0.05em;
+    white-space: nowrap;
+  }
+
+  .priority-badge.p1 { background: rgba(244,63,94,0.15); color: var(--p1); border: 1px solid rgba(244,63,94,0.3); }
+  .priority-badge.p2 { background: rgba(245,158,11,0.15); color: var(--p2); border: 1px solid rgba(245,158,11,0.3); }
+  .priority-badge.p3 { background: rgba(139,92,246,0.15); color: var(--p3); border: 1px solid rgba(139,92,246,0.3); }
+  .priority-badge.p4 { background: rgba(6,182,212,0.15); color: var(--p4); border: 1px solid rgba(6,182,212,0.3); }
+
+  .priority-header h2 {
+    font-size: 1.2rem;
+    font-weight: 600;
+  }
+
+  .priority-header .count {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.8rem;
+    color: var(--text-muted);
+    margin-left: auto;
+  }
+
+  /* Subsection */
+  .subsection {
+    margin-bottom: 1.5rem;
+  }
+
+  .subsection-title {
+    font-size: 0.8rem;
+    font-weight: 500;
+    color: var(--text-dim);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    margin-bottom: 0.75rem;
+    padding-left: 0.5rem;
+  }
+
+  /* Commit rows */
+  .commit-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .commit-row {
+    display: grid;
+    grid-template-columns: 2.5rem 7rem 5.5rem 1fr auto;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.75rem 1rem;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    transition: all 0.15s ease;
+    font-size: 0.875rem;
+  }
+
+  .commit-row:hover {
+    background: var(--bg-card-hover);
+    border-color: var(--border-accent);
+    transform: translateX(3px);
+  }
+
+  .commit-num {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    text-align: center;
+  }
+
+  .commit-hash {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.78rem;
+    color: var(--accent-blue);
+    opacity: 0.8;
+  }
+
+  .commit-date {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.75rem;
+    color: var(--text-muted);
+  }
+
+  .commit-desc {
+    font-weight: 500;
+    color: var(--text);
+    line-height: 1.4;
+  }
+
+  .commit-desc .detail {
+    display: block;
+    font-weight: 400;
+    font-size: 0.8rem;
+    color: var(--text-dim);
+    margin-top: 0.15rem;
+  }
+
+  .commit-tag {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.65rem;
+    font-weight: 600;
+    padding: 0.2em 0.6em;
+    border-radius: 4px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    white-space: nowrap;
+  }
+
+  .tag-crash { background: rgba(220,38,38,0.15); color: var(--tag-crash); }
+  .tag-desync { background: rgba(234,88,12,0.15); color: var(--tag-desync); }
+  .tag-physics { background: rgba(37,99,235,0.15); color: var(--tag-physics); }
+  .tag-perf { background: rgba(22,163,74,0.15); color: var(--tag-perf); }
+  .tag-api { background: rgba(124,58,237,0.15); color: var(--tag-api); }
+  .tag-feature { background: rgba(8,145,178,0.15); color: var(--tag-feature); }
+  .tag-debug { background: rgba(82,82,82,0.2); color: var(--tag-debug); }
+  .tag-newton { background: rgba(161,98,7,0.15); color: var(--tag-newton); }
+
+  /* Footer */
+  footer {
+    margin-top: 3rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--border);
+    font-size: 0.8rem;
+    color: var(--text-muted);
+    text-align: center;
+  }
+
+  footer a {
+    color: var(--accent-blue);
+    text-decoration: none;
+  }
+
+  /* Animations */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(12px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* Responsive */
+  @media (max-width: 768px) {
+    .commit-row {
+      grid-template-columns: 2rem 1fr;
+      gap: 0.25rem 0.5rem;
+    }
+    .commit-hash, .commit-date { display: none; }
+    .commit-tag { grid-column: 2; justify-self: start; }
+    .commit-desc { grid-column: 2; }
+    .stats-bar { grid-template-columns: repeat(2, 1fr); }
+  }
+</style>
+</head>
+<body>
+<div class="container">
+
+<header>
+  <div class="header-eyebrow">D2Proto Engine Analysis</div>
+  <h1>
+    UE5 Cherry-Pick Tracker
+    <span class="hash-range">ue5-main &rarr; 5.7.4-release</span>
+  </h1>
+  <div class="header-meta">
+    <span><span class="dot"></span> Generated 2026-03-31</span>
+    <span>Source: f:/Engine/BL/UnrealEngine</span>
+    <span>Scope: ChaosMover, CharacterGroundConstraint, NetworkPhysics</span>
+  </div>
+</header>
+
+<div class="stats-bar">
+  <div class="stat-card">
+    <div class="stat-number" style="color:var(--p1)">13</div>
+    <div class="stat-label">Bugfixes</div>
+  </div>
+  <div class="stat-card">
+    <div class="stat-number" style="color:var(--p2)">11</div>
+    <div class="stat-label">Improvements</div>
+  </div>
+  <div class="stat-card">
+    <div class="stat-number" style="color:var(--p3)">26</div>
+    <div class="stat-label">Deferred</div>
+  </div>
+  <div class="stat-card">
+    <div class="stat-number" style="color:var(--p4)">8</div>
+    <div class="stat-label">NetPhysics</div>
+  </div>
+  <div class="stat-card">
+    <div class="stat-number" style="color:var(--text)">58</div>
+    <div class="stat-label">Total</div>
+  </div>
+</div>
+
+<div class="context-box">
+  <h2>&loz; Investigation: Step-Up Catapult Bug</h2>
+  <p>Walking into small physics objects (e.g. anvil on its side, ~33 cm &lt; <code>MaxStepHeight</code> 40 cm) launches the character upward at <strong>~18 m/s</strong>.</p>
+  <ol>
+    <li>Floor sweep detects object top as walkable floor</li>
+    <li><code>ModifyContacts</code> disables all contacts with the ground particle below step threshold</li>
+    <li><code>CharacterGroundConstraintSolver</code> closes the full gap in one iteration via both CP and DP accumulators</li>
+    <li>With contacts disabled, nothing resists the resulting impulse &mdash; character catapults</li>
+  </ol>
+  <p>Epic fixed this in <code>558c0c69b005</code> (2025-10-21) but the commit only exists in <code>ue5-main</code> &mdash; never backported to any release branch.</p>
+</div>
+
+<!-- P1: Bugfixes -->
+<section class="priority-section">
+  <div class="priority-header">
+    <span class="priority-badge p1">P1</span>
+    <h2>Bugfixes</h2>
+    <span class="count">13 commits</span>
+  </div>
+  <div class="commit-list">
+    <div class="commit-row">
+      <span class="commit-num">1</span>
+      <span class="commit-hash">558c0c69b005</span>
+      <span class="commit-date">2025-10-21</span>
+      <span class="commit-desc">Fixes for pushing into small, low objects<span class="detail">Dynamic surface check, relative velocity gate, deferred TargetPosition</span></span>
+      <span class="commit-tag tag-physics">physics</span>
+    </div>
+    <div class="commit-row">
+      <span class="commit-num">2</span>
+      <span class="commit-hash">29a5f0c1faf2</span>
+      <span class="commit-date">2025-11-21</span>
+      <span class="commit-desc">Fix Velocity Padding — clipping through floor<span class="detail">Characters falling through floor at speed</span></span>
+      <span class="commit-tag tag-physics">physics</span>
+    </div>
+    <div class="commit-row">
+      <span class="commit-num">3</span>
+      <span class="commit-hash">e2d908bf85b9</span>
+      <span class="commit-date">2025-12-11</span>
+      <span class="commit-desc">Fixes for large velocities with bots<span class="detail">Abnormal velocity spikes</span></span>
+      <span class="commit-tag tag-physics">physics</span>
+    </div>
+    <div class="commit-row">
+      <span class="commit-num">4</span>
+      <span class="commit-hash">8accbbcfea70</span>
+      <span class="commit-date">2025-12-03</span>
+      <span class="commit-desc">Only set FloorResult if grounded<span class="detail">Stale FloorResult, MovementBase update in post-sim</span></span>
+      <span class="commit-tag tag-physics">physics</span>
+    </div>
+    <div class="commit-row">
+      <span class="commit-num">5</span>
+      <span class="commit-hash">91bba81f3528</span>
+      <span class="commit-date">2026-01-06</span>
+      <span class="commit-desc">Crash on SimulationTick<span class="detail">Null pointer validated</span></span>
+      <span class="commit-tag tag-crash">crash</span>
+    </div>
+    <div class="commit-row">
+      <span class="commit-num">6</span>
+      <span class="commit-hash">255d772fcd69</span>
+      <span class="commit-date">2026-01-26</span>
+      <span class="commit-desc">Crash accessing SharedSettings<span class="detail">Weak pointer fix</span></span>
+      <span class="commit-tag tag-crash">crash</span>
+    </div>
+    <div class="commit-row">
+      <span class="commit-num">7</span>
+      <span class="commit-hash">fa2c12af6d16</span>
+      <span class="commit-date">2026-02-04</span>
+      <span class="commit-desc">Fix inverse inertia in jump reaction impulse<span class="detail">Jump physics incorrect</span></span>
+      <span class="commit-tag tag-physics">physics</span>
+    </div>
+    <div class="commit-row">
+      <span class="commit-num">8</span>
+      <span class="commit-hash">9c5d3d932e66</span>
+      <span class="commit-date">2026-01-13</span>
+      <span class="commit-desc">Filter sleeping constraints from solver<span class="detail">Solver processing dead constraints</span></span>
+      <span class="commit-tag tag-physics">physics</span>
+    </div>
+    <div class="commit-row">
+      <span class="commit-num">9</span>
+      <span class="commit-hash">8bd32c516cff</span>
+      <span class="commit-date">2025-10-16</span>
+      <span class="commit-desc">Division by 0 guard in proposed move velocity<span class="detail">Potential crash/NaN</span></span>
+      <span class="commit-tag tag-crash">crash</span>
+    </div>
+    <div class="commit-row">
+      <span class="commit-num">10</span>
+      <span class="commit-hash">36f14b0b28dd</span>
+      <span class="commit-date">2025-11-19</span>
+      <span class="commit-desc">Crashes from deleted objects in async callback<span class="detail">Async physics callback safety</span></span>
+      <span class="commit-tag tag-crash">crash</span>
+    </div>
+    <div class="commit-row">
+      <span class="commit-num">11</span>
+      <span class="commit-hash">8375394ba7f6</span>
+      <span class="commit-date">2025-10-23</span>
+      <span class="commit-desc">Fix overriding of query radius<span class="detail">Floor sweep query incorrect</span></span>
+      <span class="commit-tag tag-physics">physics</span>
+    </div>
+    <div class="commit-row">
+      <span class="commit-num">12</span>
+      <span class="commit-hash">054f59d9381b</span>
+      <span class="commit-date">2025-12-02</span>
+      <span class="commit-desc">ChaosStanceModifier mode not serialized<span class="detail">Network desync</span></span>
+      <span class="commit-tag tag-desync">desync</span>
+    </div>
+    <div class="commit-row">
+      <span class="commit-num">13</span>
+      <span class="commit-hash">3ae3644e2ef2</span>
+      <span class="commit-date">2026-02-17</span>
+      <span class="commit-desc">Cache LastWaterResult on component<span class="detail">Water/buoyancy floor detection</span></span>
+      <span class="commit-tag tag-physics">physics</span>
+    </div>
+  </div>
+</section>
+
+<!-- P2: Improvements -->
+<section class="priority-section">
+  <div class="priority-header">
+    <span class="priority-badge p2">P2</span>
+    <h2>Improvements</h2>
+    <span class="count">11 commits</span>
+  </div>
+  <div class="commit-list">
+    <div class="commit-row">
+      <span class="commit-num">14</span>
+      <span class="commit-hash">65b12de78783</span>
+      <span class="commit-date">2025-11-25</span>
+      <span class="commit-desc">Based movement fixes<span class="detail">Platforms, rotation, ground velocity caching</span></span>
+      <span class="commit-tag tag-physics">physics</span>
+    </div>
+    <div class="commit-row">
+      <span class="commit-num">15</span>
+      <span class="commit-hash">16fb2b7eea85</span>
+      <span class="commit-date">2026-01-07</span>
+      <span class="commit-desc">Fix resim on turntables<span class="detail">Resimulation + rotating platforms</span></span>
+      <span class="commit-tag tag-desync">desync</span>
+    </div>
+    <div class="commit-row">
+      <span class="commit-num">16</span>
+      <span class="commit-hash">4fe5d2404643</span>
+      <span class="commit-date">2025-11-27</span>
+      <span class="commit-desc">Update constraint settings every frame<span class="detail">Not just on mode change</span></span>
+      <span class="commit-tag tag-physics">physics</span>
+    </div>
+    <div class="commit-row">
+      <span class="commit-num">17</span>
+      <span class="commit-hash">8aa577da58a9</span>
+      <span class="commit-date">2025-11-11</span>
+      <span class="commit-desc">Don't re-fire events during resim<span class="detail">Duplicate gameplay events</span></span>
+      <span class="commit-tag tag-desync">desync</span>
+    </div>
+    <div class="commit-row">
+      <span class="commit-num">18</span>
+      <span class="commit-hash">e18c02167d32</span>
+      <span class="commit-date">2025-11-11</span>
+      <span class="commit-desc">CVar to control resim event prevention<span class="detail">Companion to #17</span></span>
+      <span class="commit-tag tag-feature">feature</span>
+    </div>
+    <div class="commit-row">
+      <span class="commit-num">19</span>
+      <span class="commit-hash">5ed2c9853ab9</span>
+      <span class="commit-date">2026-02-04</span>
+      <span class="commit-desc">Assert &rarr; warning: sync state vs particle<span class="detail">Removes ensure spam</span></span>
+      <span class="commit-tag tag-debug">debug</span>
+    </div>
+    <div class="commit-row">
+      <span class="commit-num">20</span>
+      <span class="commit-hash">1fe0ea220b21</span>
+      <span class="commit-date">2026-02-05</span>
+      <span class="commit-desc">Async output interpolation bugs<span class="detail">Async physics smoothness</span></span>
+      <span class="commit-tag tag-physics">physics</span>
+    </div>
+    <div class="commit-row">
+      <span class="commit-num">21</span>
+      <span class="commit-hash">aebf66e7633d</span>
+      <span class="commit-date">2025-12-15</span>
+      <span class="commit-desc">Sim-proxy replication with Predictive Interpolation<span class="detail">Network proxy smoothness</span></span>
+      <span class="commit-tag tag-desync">network</span>
+    </div>
+    <div class="commit-row">
+      <span class="commit-num">22</span>
+      <span class="commit-hash">05ce7053edec</span>
+      <span class="commit-date">2025-12-15</span>
+      <span class="commit-desc">Seamless Travel with NetworkPhysicsComponent<span class="detail">Map transitions</span></span>
+      <span class="commit-tag tag-feature">feature</span>
+    </div>
+    <div class="commit-row">
+      <span class="commit-num">23</span>
+      <span class="commit-hash">3ad2a74f859d</span>
+      <span class="commit-date">2025-12-17</span>
+      <span class="commit-desc">Default radial force limit in falling = 0<span class="detail">No lateral force in air</span></span>
+      <span class="commit-tag tag-physics">physics</span>
+    </div>
+    <div class="commit-row">
+      <span class="commit-num">24</span>
+      <span class="commit-hash">15f4e4b7cecc</span>
+      <span class="commit-date">2025-12-16</span>
+      <span class="commit-desc">Move ground query back to GenerateMove<span class="detail">Performance: fewer queries</span></span>
+      <span class="commit-tag tag-perf">perf</span>
+    </div>
+  </div>
+</section>
+
+<!-- P3: Deferred -->
+<section class="priority-section">
+  <div class="priority-header">
+    <span class="priority-badge p3">P3</span>
+    <h2>Deferred</h2>
+    <span class="count">26 commits</span>
+  </div>
+
+  <div class="subsection">
+    <div class="subsection-title">Architecture &amp; API Refactors</div>
+    <div class="commit-list">
+      <div class="commit-row">
+        <span class="commit-num">25</span>
+        <span class="commit-hash">4ee8638220b9</span>
+        <span class="commit-date">2026-03-17</span>
+        <span class="commit-desc">Simulation context on Movement Mode functions<span class="detail">Public API change, touches all modes</span></span>
+        <span class="commit-tag tag-api">api</span>
+      </div>
+      <div class="commit-row">
+        <span class="commit-num">26</span>
+        <span class="commit-hash">082d3948c5fa</span>
+        <span class="commit-date">2025-09-22</span>
+        <span class="commit-desc">Angular velocity FRotator &rarr; FVector<span class="detail">Public API change, callers must update</span></span>
+        <span class="commit-tag tag-api">api</span>
+      </div>
+      <div class="commit-row">
+        <span class="commit-num">27</span>
+        <span class="commit-hash">75cf6ee4b0b3</span>
+        <span class="commit-date">2026-02-10</span>
+        <span class="commit-desc">Rollback blackboard prediction<span class="detail">Large refactor, ownership moves to Simulation</span></span>
+        <span class="commit-tag tag-api">api</span>
+      </div>
+      <div class="commit-row">
+        <span class="commit-num">28</span>
+        <span class="commit-hash">540b90ee395f</span>
+        <span class="commit-date">2025-10-01</span>
+        <span class="commit-desc">Rollback blackboard support<span class="detail">Prerequisite for #27, mode change records</span></span>
+        <span class="commit-tag tag-api">api</span>
+      </div>
+      <div class="commit-row">
+        <span class="commit-num">29</span>
+        <span class="commit-hash">635788ef7f6a</span>
+        <span class="commit-date">2026-03-13</span>
+        <span class="commit-desc">Input production to InjectInputs_External<span class="detail">Unified networked/non-networked entry point</span></span>
+        <span class="commit-tag tag-api">api</span>
+      </div>
+      <div class="commit-row">
+        <span class="commit-num">30</span>
+        <span class="commit-hash">b24066f03fe3</span>
+        <span class="commit-date">2025-09-16</span>
+        <span class="commit-desc">Add requested inputs struct<span class="detail">New input model</span></span>
+        <span class="commit-tag tag-api">api</span>
+      </div>
+      <div class="commit-row">
+        <span class="commit-num">31</span>
+        <span class="commit-hash">1791e20ca1ec</span>
+        <span class="commit-date">2026-03-25</span>
+        <span class="commit-desc">Move executor / move-based mode<span class="detail">Composable move generation</span></span>
+        <span class="commit-tag tag-api">api</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="subsection">
+    <div class="subsection-title">Feature Additions</div>
+    <div class="commit-list">
+      <div class="commit-row">
+        <span class="commit-num">32</span>
+        <span class="commit-hash">05c7214968af</span>
+        <span class="commit-date">2026-03-05</span>
+        <span class="commit-desc">Layered moves scheduling<span class="detail">Networked layered moves, issuance frames</span></span>
+        <span class="commit-tag tag-feature">feature</span>
+      </div>
+      <div class="commit-row">
+        <span class="commit-num">33</span>
+        <span class="commit-hash">444cf7bf6fea</span>
+        <span class="commit-date">2026-03-17</span>
+        <span class="commit-desc">Trajectory Prediction for ChaosMover<span class="detail">GASP integration</span></span>
+        <span class="commit-tag tag-feature">feature</span>
+      </div>
+      <div class="commit-row">
+        <span class="commit-num">34</span>
+        <span class="commit-hash">5f64543cf70e</span>
+        <span class="commit-date">2026-01-09</span>
+        <span class="commit-desc">Server-side launch inputs<span class="detail">Server-authoritative effects</span></span>
+        <span class="commit-tag tag-feature">feature</span>
+      </div>
+      <div class="commit-row">
+        <span class="commit-num">35</span>
+        <span class="commit-hash">231c3e6d4288</span>
+        <span class="commit-date">2026-01-07</span>
+        <span class="commit-desc">Crouch Flow Improvements<span class="detail">May be useful later</span></span>
+        <span class="commit-tag tag-feature">feature</span>
+      </div>
+      <div class="commit-row">
+        <span class="commit-num">36</span>
+        <span class="commit-hash">43837d070945</span>
+        <span class="commit-date">2025-11-27</span>
+        <span class="commit-desc">Angular velocity option in walking/falling<span class="detail">Character rotation control</span></span>
+        <span class="commit-tag tag-feature">feature</span>
+      </div>
+      <div class="commit-row">
+        <span class="commit-num">37</span>
+        <span class="commit-hash">5b3303615caf</span>
+        <span class="commit-date">2025-10-07</span>
+        <span class="commit-desc">Bubble Resim: ShouldResim<span class="detail">Selective resimulation</span></span>
+        <span class="commit-tag tag-feature">feature</span>
+      </div>
+      <div class="commit-row">
+        <span class="commit-num">38</span>
+        <span class="commit-hash">9beb26399c50</span>
+        <span class="commit-date">2025-10-07</span>
+        <span class="commit-desc">Custom chaos landed event data<span class="detail">Extensible events</span></span>
+        <span class="commit-tag tag-feature">feature</span>
+      </div>
+      <div class="commit-row">
+        <span class="commit-num">39</span>
+        <span class="commit-hash">858c1e146f21</span>
+        <span class="commit-date">2025-11-12</span>
+        <span class="commit-desc">Setup/validation for easier ChaosMover start<span class="detail">UX improvement</span></span>
+        <span class="commit-tag tag-feature">feature</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="subsection">
+    <div class="subsection-title">Newton / Fortnite Specific</div>
+    <div class="commit-list">
+      <div class="commit-row">
+        <span class="commit-num">40</span>
+        <span class="commit-hash">010cf0d56c9d</span>
+        <span class="commit-date">2025-10-14</span>
+        <span class="commit-desc">Sprint landing fixes<span class="detail">Ground query at high speed — may be useful</span></span>
+        <span class="commit-tag tag-newton">newton</span>
+      </div>
+      <div class="commit-row">
+        <span class="commit-num">41</span>
+        <span class="commit-hash">654fbb966987</span>
+        <span class="commit-date">2025-11-04</span>
+        <span class="commit-desc">Gravity ignored when jumping<span class="detail">JumpForceTimeRemaining</span></span>
+        <span class="commit-tag tag-newton">newton</span>
+      </div>
+      <div class="commit-row">
+        <span class="commit-num">42</span>
+        <span class="commit-hash">95ec23ed56ff</span>
+        <span class="commit-date">2025-11-26</span>
+        <span class="commit-desc">Clamp velocity to max speed in falling<span class="detail">AI velocity clamping</span></span>
+        <span class="commit-tag tag-newton">newton</span>
+      </div>
+      <div class="commit-row">
+        <span class="commit-num">43</span>
+        <span class="commit-hash">2b62e972be07</span>
+        <span class="commit-date">2025-11-10</span>
+        <span class="commit-desc">Computing ground velocity<span class="detail">Newton ground detection</span></span>
+        <span class="commit-tag tag-newton">newton</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="subsection">
+    <div class="subsection-title">Debug / Tooling / Cleanup</div>
+    <div class="commit-list">
+      <div class="commit-row">
+        <span class="commit-num">44</span>
+        <span class="commit-hash">d307c3426264</span>
+        <span class="commit-date">2025-12-04</span>
+        <span class="commit-desc">Tracing network physics to CVD</span>
+        <span class="commit-tag tag-debug">debug</span>
+      </div>
+      <div class="commit-row">
+        <span class="commit-num">45</span>
+        <span class="commit-hash">64bd08ed109d</span>
+        <span class="commit-date">2025-11-24</span>
+        <span class="commit-desc">Performance scopes</span>
+        <span class="commit-tag tag-debug">debug</span>
+      </div>
+      <div class="commit-row">
+        <span class="commit-num">46</span>
+        <span class="commit-hash">c1bbbb9b6267</span>
+        <span class="commit-date">2025-11-07</span>
+        <span class="commit-desc">CVD trace in OnModifyContacts</span>
+        <span class="commit-tag tag-debug">debug</span>
+      </div>
+      <div class="commit-row">
+        <span class="commit-num">47</span>
+        <span class="commit-hash">b669783a552c</span>
+        <span class="commit-date">2025-11-18</span>
+        <span class="commit-desc">Tracing Instant Movement Effects to CVD</span>
+        <span class="commit-tag tag-debug">debug</span>
+      </div>
+      <div class="commit-row">
+        <span class="commit-num">48</span>
+        <span class="commit-hash">220a702fbfbf</span>
+        <span class="commit-date">2025-11-07</span>
+        <span class="commit-desc">TeleportTo debug effect</span>
+        <span class="commit-tag tag-debug">debug</span>
+      </div>
+      <div class="commit-row">
+        <span class="commit-num">49</span>
+        <span class="commit-hash">1d164be537b4</span>
+        <span class="commit-date">2025-10-02</span>
+        <span class="commit-desc">Local-only teleport for debugging desyncs</span>
+        <span class="commit-tag tag-debug">debug</span>
+      </div>
+      <div class="commit-row">
+        <span class="commit-num">50</span>
+        <span class="commit-hash">a0e12af64e9e</span>
+        <span class="commit-date">2025-10-30</span>
+        <span class="commit-desc">CodeFixup: ~Type() = default</span>
+        <span class="commit-tag tag-debug">cleanup</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- P4: NetworkPhysics -->
+<section class="priority-section">
+  <div class="priority-header">
+    <span class="priority-badge p4">P4</span>
+    <h2>NetworkPhysics</h2>
+    <span class="count">8 commits</span>
+  </div>
+  <div class="commit-list">
+    <div class="commit-row">
+      <span class="commit-num">51</span>
+      <span class="commit-hash">574f0e31a686</span>
+      <span class="commit-date">2026-03-24</span>
+      <span class="commit-desc">Fix crash from legacy delta serialization<span class="detail">Serialization flow crash</span></span>
+      <span class="commit-tag tag-crash">crash</span>
+    </div>
+    <div class="commit-row">
+      <span class="commit-num">52</span>
+      <span class="commit-hash">9fb82fe626d1</span>
+      <span class="commit-date">2026-03-16</span>
+      <span class="commit-desc">Resim with pending-deletion objects<span class="detail">Desynced particle leniency</span></span>
+      <span class="commit-tag tag-desync">desync</span>
+    </div>
+    <div class="commit-row">
+      <span class="commit-num">53</span>
+      <span class="commit-hash">a4b9b260b103</span>
+      <span class="commit-date">2026-02-27</span>
+      <span class="commit-desc">Fix multiple history registration<span class="detail">Resim perf collapse guard</span></span>
+      <span class="commit-tag tag-crash">crash</span>
+    </div>
+    <div class="commit-row">
+      <span class="commit-num">54</span>
+      <span class="commit-hash">dd1b8732293b</span>
+      <span class="commit-date">2026-01-12</span>
+      <span class="commit-desc">Fix SettingsDataAsset values getting stomped<span class="detail">Settings override bug</span></span>
+      <span class="commit-tag tag-desync">desync</span>
+    </div>
+    <div class="commit-row">
+      <span class="commit-num">55</span>
+      <span class="commit-hash">a29d1d2a7451</span>
+      <span class="commit-date">2025-12-10</span>
+      <span class="commit-desc">Fix state on frozen particle during resim<span class="detail">Flag not cleared</span></span>
+      <span class="commit-tag tag-desync">desync</span>
+    </div>
+    <div class="commit-row">
+      <span class="commit-num">56</span>
+      <span class="commit-hash">72dc49ea1703</span>
+      <span class="commit-date">2025-12-09</span>
+      <span class="commit-desc">Fix GetForwardPredictionTime() computation<span class="detail">Uses cheaper GetLastReceivedServerFrame()</span></span>
+      <span class="commit-tag tag-perf">perf</span>
+    </div>
+    <div class="commit-row">
+      <span class="commit-num">57</span>
+      <span class="commit-hash">379f1f0b1ed4</span>
+      <span class="commit-date">2025-12-03</span>
+      <span class="commit-desc">Move state recording to post-solve<span class="detail">1 frame less resim lag</span></span>
+      <span class="commit-tag tag-perf">perf</span>
+    </div>
+    <div class="commit-row">
+      <span class="commit-num">58</span>
+      <span class="commit-hash">d3df8db567df</span>
+      <span class="commit-date">2025-11-13</span>
+      <span class="commit-desc">Clamp resim frame search distance<span class="detail">Resim stability</span></span>
+      <span class="commit-tag tag-desync">desync</span>
+    </div>
+  </div>
+</section>
+
+<footer>
+  Generated by Claude &middot; Source: <code>f:/Engine/BL/UnrealEngine</code> ue5-main vs 5.7.4-release &middot;
+  Backout commits (918609fe, cca897b3, 5acdc9f0) excluded &mdash; re-submitted versions used
+</footer>
+
+</div>
+</body>
+</html>
