@@ -245,6 +245,29 @@
   .tag-debug { background: rgba(82,82,82,0.2); color: var(--tag-debug); }
   .tag-newton { background: rgba(161,98,7,0.15); color: var(--tag-newton); }
 
+  .notice-box {
+    background: linear-gradient(135deg, rgba(245,158,11,0.1), rgba(245,158,11,0.03));
+    border: 1px solid rgba(245,158,11,0.3);
+    border-left: 3px solid var(--p2);
+    border-radius: 8px;
+    padding: 1.1rem 1.5rem;
+    margin-bottom: 2rem;
+    font-size: 0.875rem;
+    color: var(--text);
+    line-height: 1.6;
+    opacity: 0;
+    animation: fadeUp 0.5s ease 0.35s forwards;
+  }
+
+  .notice-box code {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.82em;
+    background: rgba(255,255,255,0.06);
+    padding: 0.15em 0.4em;
+    border-radius: 4px;
+    color: var(--p2);
+  }
+
   footer {
     margin-top: 3rem;
     padding-top: 1.5rem;
@@ -276,14 +299,20 @@
 <header>
   <div class="header-eyebrow">Engine Analysis</div>
   <h1>
-    UE5 Cherry-Pick Tracker
-    <span class="hash-range">ue5-main &rarr; 5.7.4-release</span>
+    UE5 Unreleased Commits Tracker
+    <span class="hash-range">ue5-main only &mdash; not in any release branch</span>
   </h1>
   <div class="header-meta">
     <span><span class="dot"></span> Generated 2026-03-31</span>
     <span>Scope: ChaosMover, CharacterGroundConstraint, NetworkPhysics</span>
   </div>
 </header>
+
+<div class="notice-box">
+  These commits exist <strong>only in <code>ue5-main</code></strong>. They are not present in
+  <code>5.7.4-release</code>, <code>release</code>, or any other shipping branch as of 2026-03-31.
+  To use them you must cherry-pick from <code>ue5-main</code> into your engine fork.
+</div>
 
 <div class="stats-bar">
   <div class="stat-card"><div class="stat-number" style="color:var(--p1)">13</div><div class="stat-label">Bugfixes</div></div>
