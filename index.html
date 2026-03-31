@@ -16,16 +16,12 @@
     --text: #e2e8f0;
     --text-dim: #64748b;
     --text-muted: #475569;
-    --accent-red: #f43f5e;
-    --accent-amber: #f59e0b;
-    --accent-green: #10b981;
-    --accent-blue: #3b82f6;
-    --accent-purple: #8b5cf6;
-    --accent-cyan: #06b6d4;
     --p1: #f43f5e;
     --p2: #f59e0b;
     --p3: #8b5cf6;
     --p4: #06b6d4;
+    --accent-blue: #3b82f6;
+    --accent-green: #10b981;
     --tag-crash: #dc2626;
     --tag-desync: #ea580c;
     --tag-physics: #2563eb;
@@ -65,7 +61,6 @@
     padding: 2rem 1.5rem 4rem;
   }
 
-  /* Header */
   header {
     margin-bottom: 3rem;
     padding-bottom: 2rem;
@@ -112,21 +107,9 @@
     animation: fadeUp 0.5s ease 0.2s forwards;
   }
 
-  .header-meta span {
-    display: flex;
-    align-items: center;
-    gap: 0.4rem;
-  }
+  .header-meta span { display: flex; align-items: center; gap: 0.4rem; }
+  .header-meta .dot { width: 6px; height: 6px; border-radius: 50%; background: var(--accent-green); display: inline-block; }
 
-  .header-meta .dot {
-    width: 6px;
-    height: 6px;
-    border-radius: 50%;
-    background: var(--accent-green);
-    display: inline-block;
-  }
-
-  /* Stats bar */
   .stats-bar {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
@@ -145,10 +128,7 @@
     transition: border-color 0.2s, transform 0.2s;
   }
 
-  .stat-card:hover {
-    border-color: var(--border-accent);
-    transform: translateY(-2px);
-  }
+  .stat-card:hover { border-color: var(--border-accent); transform: translateY(-2px); }
 
   .stat-number {
     font-family: 'JetBrains Mono', monospace;
@@ -165,53 +145,7 @@
     letter-spacing: 0.08em;
   }
 
-  /* Context box */
-  .context-box {
-    background: linear-gradient(135deg, rgba(244,63,94,0.08), rgba(244,63,94,0.02));
-    border: 1px solid rgba(244,63,94,0.2);
-    border-radius: 12px;
-    padding: 1.75rem 2rem;
-    margin-bottom: 3rem;
-    opacity: 0;
-    animation: fadeUp 0.5s ease 0.4s forwards;
-  }
-
-  .context-box h2 {
-    font-size: 1.1rem;
-    color: var(--accent-red);
-    margin-bottom: 1rem;
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-  }
-
-  .context-box p {
-    font-size: 0.9rem;
-    color: var(--text);
-    margin-bottom: 0.75rem;
-    line-height: 1.7;
-  }
-
-  .context-box ol {
-    padding-left: 1.25rem;
-    font-size: 0.85rem;
-    color: var(--text-dim);
-    line-height: 1.8;
-  }
-
-  .context-box code {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 0.8em;
-    background: rgba(255,255,255,0.06);
-    padding: 0.15em 0.45em;
-    border-radius: 4px;
-    color: var(--accent-amber);
-  }
-
-  /* Priority sections */
-  .priority-section {
-    margin-bottom: 3rem;
-  }
+  .priority-section { margin-bottom: 3rem; }
 
   .priority-header {
     display: flex;
@@ -237,23 +171,10 @@
   .priority-badge.p3 { background: rgba(139,92,246,0.15); color: var(--p3); border: 1px solid rgba(139,92,246,0.3); }
   .priority-badge.p4 { background: rgba(6,182,212,0.15); color: var(--p4); border: 1px solid rgba(6,182,212,0.3); }
 
-  .priority-header h2 {
-    font-size: 1.2rem;
-    font-weight: 600;
-  }
+  .priority-header h2 { font-size: 1.2rem; font-weight: 600; }
+  .priority-header .count { font-family: 'JetBrains Mono', monospace; font-size: 0.8rem; color: var(--text-muted); margin-left: auto; }
 
-  .priority-header .count {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 0.8rem;
-    color: var(--text-muted);
-    margin-left: auto;
-  }
-
-  /* Subsection */
-  .subsection {
-    margin-bottom: 1.5rem;
-  }
-
+  .subsection { margin-bottom: 1.5rem; }
   .subsection-title {
     font-size: 0.8rem;
     font-weight: 500;
@@ -264,19 +185,14 @@
     padding-left: 0.5rem;
   }
 
-  /* Commit rows */
-  .commit-list {
-    display: flex;
-    flex-direction: column;
-    gap: 0.5rem;
-  }
+  .commit-list { display: flex; flex-direction: column; gap: 0.5rem; }
 
   .commit-row {
     display: grid;
     grid-template-columns: 2.5rem 7rem 5.5rem 1fr auto;
-    align-items: center;
+    align-items: start;
     gap: 0.75rem;
-    padding: 0.75rem 1rem;
+    padding: 0.85rem 1rem;
     background: var(--bg-card);
     border: 1px solid var(--border);
     border-radius: 8px;
@@ -284,45 +200,29 @@
     font-size: 0.875rem;
   }
 
-  .commit-row:hover {
-    background: var(--bg-card-hover);
-    border-color: var(--border-accent);
-    transform: translateX(3px);
-  }
+  .commit-row:hover { background: var(--bg-card-hover); border-color: var(--border-accent); transform: translateX(3px); }
 
-  .commit-num {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 0.75rem;
-    color: var(--text-muted);
-    text-align: center;
-  }
+  .commit-num { font-family: 'JetBrains Mono', monospace; font-size: 0.75rem; color: var(--text-muted); text-align: center; padding-top: 0.15rem; }
 
   .commit-hash {
     font-family: 'JetBrains Mono', monospace;
     font-size: 0.78rem;
+    padding-top: 0.15rem;
+  }
+
+  .commit-hash a {
     color: var(--accent-blue);
     opacity: 0.8;
+    text-decoration: none;
+    transition: opacity 0.15s;
   }
 
-  .commit-date {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 0.75rem;
-    color: var(--text-muted);
-  }
+  .commit-hash a:hover { opacity: 1; text-decoration: underline; }
 
-  .commit-desc {
-    font-weight: 500;
-    color: var(--text);
-    line-height: 1.4;
-  }
+  .commit-date { font-family: 'JetBrains Mono', monospace; font-size: 0.75rem; color: var(--text-muted); padding-top: 0.15rem; }
 
-  .commit-desc .detail {
-    display: block;
-    font-weight: 400;
-    font-size: 0.8rem;
-    color: var(--text-dim);
-    margin-top: 0.15rem;
-  }
+  .commit-desc { font-weight: 500; color: var(--text); line-height: 1.4; }
+  .commit-desc .detail { display: block; font-weight: 400; font-size: 0.8rem; color: var(--text-dim); margin-top: 0.25rem; line-height: 1.5; }
 
   .commit-tag {
     font-family: 'JetBrains Mono', monospace;
@@ -333,6 +233,7 @@
     text-transform: uppercase;
     letter-spacing: 0.05em;
     white-space: nowrap;
+    margin-top: 0.15rem;
   }
 
   .tag-crash { background: rgba(220,38,38,0.15); color: var(--tag-crash); }
@@ -344,7 +245,6 @@
   .tag-debug { background: rgba(82,82,82,0.2); color: var(--tag-debug); }
   .tag-newton { background: rgba(161,98,7,0.15); color: var(--tag-newton); }
 
-  /* Footer */
   footer {
     margin-top: 3rem;
     padding-top: 1.5rem;
@@ -354,23 +254,15 @@
     text-align: center;
   }
 
-  footer a {
-    color: var(--accent-blue);
-    text-decoration: none;
-  }
+  footer code { font-family: 'JetBrains Mono', monospace; font-size: 0.85em; }
 
-  /* Animations */
   @keyframes fadeUp {
     from { opacity: 0; transform: translateY(12px); }
     to { opacity: 1; transform: translateY(0); }
   }
 
-  /* Responsive */
   @media (max-width: 768px) {
-    .commit-row {
-      grid-template-columns: 2rem 1fr;
-      gap: 0.25rem 0.5rem;
-    }
+    .commit-row { grid-template-columns: 2rem 1fr; gap: 0.25rem 0.5rem; }
     .commit-hash, .commit-date { display: none; }
     .commit-tag { grid-column: 2; justify-self: start; }
     .commit-desc { grid-column: 2; }
@@ -382,51 +274,23 @@
 <div class="container">
 
 <header>
-  <div class="header-eyebrow">D2Proto Engine Analysis</div>
+  <div class="header-eyebrow">Engine Analysis</div>
   <h1>
     UE5 Cherry-Pick Tracker
     <span class="hash-range">ue5-main &rarr; 5.7.4-release</span>
   </h1>
   <div class="header-meta">
     <span><span class="dot"></span> Generated 2026-03-31</span>
-    <span>Source: f:/Engine/BL/UnrealEngine</span>
     <span>Scope: ChaosMover, CharacterGroundConstraint, NetworkPhysics</span>
   </div>
 </header>
 
 <div class="stats-bar">
-  <div class="stat-card">
-    <div class="stat-number" style="color:var(--p1)">13</div>
-    <div class="stat-label">Bugfixes</div>
-  </div>
-  <div class="stat-card">
-    <div class="stat-number" style="color:var(--p2)">11</div>
-    <div class="stat-label">Improvements</div>
-  </div>
-  <div class="stat-card">
-    <div class="stat-number" style="color:var(--p3)">26</div>
-    <div class="stat-label">Deferred</div>
-  </div>
-  <div class="stat-card">
-    <div class="stat-number" style="color:var(--p4)">8</div>
-    <div class="stat-label">NetPhysics</div>
-  </div>
-  <div class="stat-card">
-    <div class="stat-number" style="color:var(--text)">58</div>
-    <div class="stat-label">Total</div>
-  </div>
-</div>
-
-<div class="context-box">
-  <h2>&loz; Investigation: Step-Up Catapult Bug</h2>
-  <p>Walking into small physics objects (e.g. anvil on its side, ~33 cm &lt; <code>MaxStepHeight</code> 40 cm) launches the character upward at <strong>~18 m/s</strong>.</p>
-  <ol>
-    <li>Floor sweep detects object top as walkable floor</li>
-    <li><code>ModifyContacts</code> disables all contacts with the ground particle below step threshold</li>
-    <li><code>CharacterGroundConstraintSolver</code> closes the full gap in one iteration via both CP and DP accumulators</li>
-    <li>With contacts disabled, nothing resists the resulting impulse &mdash; character catapults</li>
-  </ol>
-  <p>Epic fixed this in <code>558c0c69b005</code> (2025-10-21) but the commit only exists in <code>ue5-main</code> &mdash; never backported to any release branch.</p>
+  <div class="stat-card"><div class="stat-number" style="color:var(--p1)">13</div><div class="stat-label">Bugfixes</div></div>
+  <div class="stat-card"><div class="stat-number" style="color:var(--p2)">11</div><div class="stat-label">Improvements</div></div>
+  <div class="stat-card"><div class="stat-number" style="color:var(--p3)">26</div><div class="stat-label">Deferred</div></div>
+  <div class="stat-card"><div class="stat-number" style="color:var(--p4)">8</div><div class="stat-label">NetPhysics</div></div>
+  <div class="stat-card"><div class="stat-number" style="color:var(--text)">58</div><div class="stat-label">Total</div></div>
 </div>
 
 <!-- P1: Bugfixes -->
@@ -439,93 +303,93 @@
   <div class="commit-list">
     <div class="commit-row">
       <span class="commit-num">1</span>
-      <span class="commit-hash">558c0c69b005</span>
+      <span class="commit-hash"><a href="https://github.com/EpicGames/UnrealEngine/commit/558c0c69b005">558c0c69b005</a></span>
       <span class="commit-date">2025-10-21</span>
-      <span class="commit-desc">Fixes for pushing into small, low objects<span class="detail">Dynamic surface check, relative velocity gate, deferred TargetPosition</span></span>
+      <span class="commit-desc">Fixes for pushing into small, low objects<span class="detail">Walking mode step-up logic now checks whether the surface belongs to a dynamic body and whether the character is actually approaching it. Prevents the ground constraint from applying a full position correction against physics objects that should be handled by regular collision response instead.</span></span>
       <span class="commit-tag tag-physics">physics</span>
     </div>
     <div class="commit-row">
       <span class="commit-num">2</span>
-      <span class="commit-hash">29a5f0c1faf2</span>
+      <span class="commit-hash"><a href="https://github.com/EpicGames/UnrealEngine/commit/29a5f0c1faf2">29a5f0c1faf2</a></span>
       <span class="commit-date">2025-11-21</span>
-      <span class="commit-desc">Fix Velocity Padding — clipping through floor<span class="detail">Characters falling through floor at speed</span></span>
+      <span class="commit-desc">Fix Velocity Padding calculation<span class="detail">The floor sweep query distance included a velocity padding term that could underestimate the required range when falling fast. Characters would clip through thin floors because the sweep ended above the actual surface. Corrected the padding formula to account for the full downward velocity.</span></span>
       <span class="commit-tag tag-physics">physics</span>
     </div>
     <div class="commit-row">
       <span class="commit-num">3</span>
-      <span class="commit-hash">e2d908bf85b9</span>
+      <span class="commit-hash"><a href="https://github.com/EpicGames/UnrealEngine/commit/e2d908bf85b9">e2d908bf85b9</a></span>
       <span class="commit-date">2025-12-11</span>
-      <span class="commit-desc">Fixes for large velocities with bots<span class="detail">Abnormal velocity spikes</span></span>
+      <span class="commit-desc">Fixes for large velocities with bots<span class="detail">AI-controlled characters could accumulate abnormally high velocities when movement intent conflicted with physics solver output. Adds velocity sanity checks to prevent the character from reaching speeds that break ground detection and constraint solving.</span></span>
       <span class="commit-tag tag-physics">physics</span>
     </div>
     <div class="commit-row">
       <span class="commit-num">4</span>
-      <span class="commit-hash">8accbbcfea70</span>
+      <span class="commit-hash"><a href="https://github.com/EpicGames/UnrealEngine/commit/8accbbcfea70">8accbbcfea70</a></span>
       <span class="commit-date">2025-12-03</span>
-      <span class="commit-desc">Only set FloorResult if grounded<span class="detail">Stale FloorResult, MovementBase update in post-sim</span></span>
+      <span class="commit-desc">Only set FloorResult if character is grounded<span class="detail">FloorResult was being written unconditionally, so an airborne character could carry a stale floor reference from a previous tick. MovementBase update now happens in PostSimulationTick so it reflects the solver&rsquo;s actual output rather than the pre-sim prediction.</span></span>
       <span class="commit-tag tag-physics">physics</span>
     </div>
     <div class="commit-row">
       <span class="commit-num">5</span>
-      <span class="commit-hash">91bba81f3528</span>
+      <span class="commit-hash"><a href="https://github.com/EpicGames/UnrealEngine/commit/91bba81f3528">91bba81f3528</a></span>
       <span class="commit-date">2026-01-06</span>
-      <span class="commit-desc">Crash on SimulationTick<span class="detail">Null pointer validated</span></span>
+      <span class="commit-desc">Crash in SimulationTick<span class="detail">A pointer obtained from the blackboard was used without validation. Under rare timing conditions (mode change during resim) the pointer was null. Adds a validity check before dereferencing.</span></span>
       <span class="commit-tag tag-crash">crash</span>
     </div>
     <div class="commit-row">
       <span class="commit-num">6</span>
-      <span class="commit-hash">255d772fcd69</span>
+      <span class="commit-hash"><a href="https://github.com/EpicGames/UnrealEngine/commit/255d772fcd69">255d772fcd69</a></span>
       <span class="commit-date">2026-01-26</span>
-      <span class="commit-desc">Crash accessing SharedSettings<span class="detail">Weak pointer fix</span></span>
+      <span class="commit-desc">Crash accessing SharedSettings<span class="detail">SharedSettings was held as a raw pointer that could dangle if the owning object was garbage-collected. Changed to a TWeakObjectPtr with a strong pin on every access site, preventing use-after-free.</span></span>
       <span class="commit-tag tag-crash">crash</span>
     </div>
     <div class="commit-row">
       <span class="commit-num">7</span>
-      <span class="commit-hash">fa2c12af6d16</span>
+      <span class="commit-hash"><a href="https://github.com/EpicGames/UnrealEngine/commit/fa2c12af6d16">fa2c12af6d16</a></span>
       <span class="commit-date">2026-02-04</span>
-      <span class="commit-desc">Fix inverse inertia in jump reaction impulse<span class="detail">Jump physics incorrect</span></span>
+      <span class="commit-desc">Fix inverse inertia in jump reaction impulse<span class="detail">When applying a reaction impulse to the ground body on jump, the world-space inverse inertia was computed incorrectly (wrong rotation applied). This made jump impulses feel inconsistent depending on character orientation.</span></span>
       <span class="commit-tag tag-physics">physics</span>
     </div>
     <div class="commit-row">
       <span class="commit-num">8</span>
-      <span class="commit-hash">9c5d3d932e66</span>
+      <span class="commit-hash"><a href="https://github.com/EpicGames/UnrealEngine/commit/9c5d3d932e66">9c5d3d932e66</a></span>
       <span class="commit-date">2026-01-13</span>
-      <span class="commit-desc">Filter sleeping constraints from solver<span class="detail">Solver processing dead constraints</span></span>
+      <span class="commit-desc">Filter sleeping constraints from solver<span class="detail">Sleeping CharacterGroundConstraints were still being added to solver containers, wasting iteration budget and occasionally producing stale impulses on wake-up. Now filtered out before insertion.</span></span>
       <span class="commit-tag tag-physics">physics</span>
     </div>
     <div class="commit-row">
       <span class="commit-num">9</span>
-      <span class="commit-hash">8bd32c516cff</span>
+      <span class="commit-hash"><a href="https://github.com/EpicGames/UnrealEngine/commit/8bd32c516cff">8bd32c516cff</a></span>
       <span class="commit-date">2025-10-16</span>
-      <span class="commit-desc">Division by 0 guard in proposed move velocity<span class="detail">Potential crash/NaN</span></span>
+      <span class="commit-desc">Division by zero guard in proposed move velocity<span class="detail">When DeltaSeconds was extremely small (sub-frame correction tick), dividing DeltaPos by it produced NaN velocity that propagated through the constraint solver. Adds a safe division with epsilon guard.</span></span>
       <span class="commit-tag tag-crash">crash</span>
     </div>
     <div class="commit-row">
       <span class="commit-num">10</span>
-      <span class="commit-hash">36f14b0b28dd</span>
+      <span class="commit-hash"><a href="https://github.com/EpicGames/UnrealEngine/commit/36f14b0b28dd">36f14b0b28dd</a></span>
       <span class="commit-date">2025-11-19</span>
-      <span class="commit-desc">Crashes from deleted objects in async callback<span class="detail">Async physics callback safety</span></span>
+      <span class="commit-desc">Crashes from deleted objects in async callback<span class="detail">The async physics callback captured raw pointers to game-thread objects. If those objects were destroyed between scheduling and execution, the callback would crash. Adds weak-pointer guards and validity checks at callback entry.</span></span>
       <span class="commit-tag tag-crash">crash</span>
     </div>
     <div class="commit-row">
       <span class="commit-num">11</span>
-      <span class="commit-hash">8375394ba7f6</span>
+      <span class="commit-hash"><a href="https://github.com/EpicGames/UnrealEngine/commit/8375394ba7f6">8375394ba7f6</a></span>
       <span class="commit-date">2025-10-23</span>
-      <span class="commit-desc">Fix overriding of query radius<span class="detail">Floor sweep query incorrect</span></span>
+      <span class="commit-desc">Fix overriding of query radius<span class="detail">Custom query radius set on a movement mode was being overwritten by the default value during floor sweep parameter construction. The override now takes precedence.</span></span>
       <span class="commit-tag tag-physics">physics</span>
     </div>
     <div class="commit-row">
       <span class="commit-num">12</span>
-      <span class="commit-hash">054f59d9381b</span>
+      <span class="commit-hash"><a href="https://github.com/EpicGames/UnrealEngine/commit/054f59d9381b">054f59d9381b</a></span>
       <span class="commit-date">2025-12-02</span>
-      <span class="commit-desc">ChaosStanceModifier mode not serialized<span class="detail">Network desync</span></span>
+      <span class="commit-desc">ChaosStanceModifier mode not serialized<span class="detail">The CurrentMode variable inside ChaosStanceModifier was missing serialization markup. During network replication and resimulation the stance would revert to default, causing visual and gameplay desync between server and client.</span></span>
       <span class="commit-tag tag-desync">desync</span>
     </div>
     <div class="commit-row">
       <span class="commit-num">13</span>
-      <span class="commit-hash">3ae3644e2ef2</span>
+      <span class="commit-hash"><a href="https://github.com/EpicGames/UnrealEngine/commit/3ae3644e2ef2">3ae3644e2ef2</a></span>
       <span class="commit-date">2026-02-17</span>
-      <span class="commit-desc">Cache LastWaterResult on component<span class="detail">Water/buoyancy floor detection</span></span>
+      <span class="commit-desc">Cache LastWaterResult on component<span class="detail">LastWaterResult was only accessible through the simulation blackboard, which is unavailable outside the sim tick. Now cached on ChaosMoverComponent alongside LastFloorResult, so external systems (buoyancy, effects) can read it reliably.</span></span>
       <span class="commit-tag tag-physics">physics</span>
     </div>
   </div>
@@ -541,79 +405,79 @@
   <div class="commit-list">
     <div class="commit-row">
       <span class="commit-num">14</span>
-      <span class="commit-hash">65b12de78783</span>
+      <span class="commit-hash"><a href="https://github.com/EpicGames/UnrealEngine/commit/65b12de78783">65b12de78783</a></span>
       <span class="commit-date">2025-11-25</span>
-      <span class="commit-desc">Based movement fixes<span class="detail">Platforms, rotation, ground velocity caching</span></span>
+      <span class="commit-desc">Based movement fixes<span class="detail">Recomputes ground info at frame start to avoid stale data during resim. Moves relative velocity logic into walking mode only. Caches ground velocity to avoid redundant recomputation. Adds special handling for standing on rotating platforms where character and ground velocities diverge.</span></span>
       <span class="commit-tag tag-physics">physics</span>
     </div>
     <div class="commit-row">
       <span class="commit-num">15</span>
-      <span class="commit-hash">16fb2b7eea85</span>
+      <span class="commit-hash"><a href="https://github.com/EpicGames/UnrealEngine/commit/16fb2b7eea85">16fb2b7eea85</a></span>
       <span class="commit-date">2026-01-07</span>
-      <span class="commit-desc">Fix resim on turntables<span class="detail">Resimulation + rotating platforms</span></span>
+      <span class="commit-desc">Fix resim on turntables<span class="detail">Resimulation on rotating platforms produced different results than forward simulation because the ground&rsquo;s angular velocity wasn&rsquo;t properly rewound. Fixes the rewind state to include platform rotation.</span></span>
       <span class="commit-tag tag-desync">desync</span>
     </div>
     <div class="commit-row">
       <span class="commit-num">16</span>
-      <span class="commit-hash">4fe5d2404643</span>
+      <span class="commit-hash"><a href="https://github.com/EpicGames/UnrealEngine/commit/4fe5d2404643">4fe5d2404643</a></span>
       <span class="commit-date">2025-11-27</span>
-      <span class="commit-desc">Update constraint settings every frame<span class="detail">Not just on mode change</span></span>
+      <span class="commit-desc">Update constraint settings every frame<span class="detail">Previously constraint settings (force limits, damping) were only pushed to the solver on movement mode change. Now they&rsquo;re updated every frame, allowing runtime tuning and mode-internal parameter changes to take effect immediately.</span></span>
       <span class="commit-tag tag-physics">physics</span>
     </div>
     <div class="commit-row">
       <span class="commit-num">17</span>
-      <span class="commit-hash">8aa577da58a9</span>
+      <span class="commit-hash"><a href="https://github.com/EpicGames/UnrealEngine/commit/8aa577da58a9">8aa577da58a9</a></span>
       <span class="commit-date">2025-11-11</span>
-      <span class="commit-desc">Don't re-fire events during resim<span class="detail">Duplicate gameplay events</span></span>
+      <span class="commit-desc">Don&rsquo;t re-fire events during resim<span class="detail">Gameplay events (landed, mode changed) were firing again during resimulation, causing double sound effects, duplicate ability activations, etc. Now checks whether the event was already fired for this frame before dispatching.</span></span>
       <span class="commit-tag tag-desync">desync</span>
     </div>
     <div class="commit-row">
       <span class="commit-num">18</span>
-      <span class="commit-hash">e18c02167d32</span>
+      <span class="commit-hash"><a href="https://github.com/EpicGames/UnrealEngine/commit/e18c02167d32">e18c02167d32</a></span>
       <span class="commit-date">2025-11-11</span>
-      <span class="commit-desc">CVar to control resim event prevention<span class="detail">Companion to #17</span></span>
+      <span class="commit-desc">CVar to control resim event suppression<span class="detail">Companion to the duplicate event fix. Adds a console variable to toggle the suppression on/off, useful for debugging resim behavior where you want to see every event fire.</span></span>
       <span class="commit-tag tag-feature">feature</span>
     </div>
     <div class="commit-row">
       <span class="commit-num">19</span>
-      <span class="commit-hash">5ed2c9853ab9</span>
+      <span class="commit-hash"><a href="https://github.com/EpicGames/UnrealEngine/commit/5ed2c9853ab9">5ed2c9853ab9</a></span>
       <span class="commit-date">2026-02-04</span>
-      <span class="commit-desc">Assert &rarr; warning: sync state vs particle<span class="detail">Removes ensure spam</span></span>
+      <span class="commit-desc">Assert &rarr; warning for sync state mismatch<span class="detail">When the output sync state&rsquo;s transform differed from the physics particle&rsquo;s actual transform, an ensure would fire. This is a recoverable situation (the solver corrects next tick), so downgraded to a log warning to reduce noise.</span></span>
       <span class="commit-tag tag-debug">debug</span>
     </div>
     <div class="commit-row">
       <span class="commit-num">20</span>
-      <span class="commit-hash">1fe0ea220b21</span>
+      <span class="commit-hash"><a href="https://github.com/EpicGames/UnrealEngine/commit/1fe0ea220b21">1fe0ea220b21</a></span>
       <span class="commit-date">2026-02-05</span>
-      <span class="commit-desc">Async output interpolation bugs<span class="detail">Async physics smoothness</span></span>
+      <span class="commit-desc">Async output interpolation fixes<span class="detail">Two bugs in how async physics results were consumed: outputs with a start time after the lookback time were being popped too early, and the interpolation base time wasn&rsquo;t aligned to async frame boundaries. Both caused micro-jitter on async-physics characters.</span></span>
       <span class="commit-tag tag-physics">physics</span>
     </div>
     <div class="commit-row">
       <span class="commit-num">21</span>
-      <span class="commit-hash">aebf66e7633d</span>
+      <span class="commit-hash"><a href="https://github.com/EpicGames/UnrealEngine/commit/aebf66e7633d">aebf66e7633d</a></span>
       <span class="commit-date">2025-12-15</span>
-      <span class="commit-desc">Sim-proxy replication with Predictive Interpolation<span class="detail">Network proxy smoothness</span></span>
+      <span class="commit-desc">Sim-proxy replication with Predictive Interpolation<span class="detail">For sim-proxies not using resimulation, inputs are now applied in the same timeline as received states. ChaosMover defers to the particle state set by replication rather than overriding it from inputs, which plays better with Predictive Interpolation.</span></span>
       <span class="commit-tag tag-desync">network</span>
     </div>
     <div class="commit-row">
       <span class="commit-num">22</span>
-      <span class="commit-hash">05ce7053edec</span>
+      <span class="commit-hash"><a href="https://github.com/EpicGames/UnrealEngine/commit/05ce7053edec">05ce7053edec</a></span>
       <span class="commit-date">2025-12-15</span>
-      <span class="commit-desc">Seamless Travel with NetworkPhysicsComponent<span class="detail">Map transitions</span></span>
+      <span class="commit-desc">Seamless Travel with NetworkPhysicsComponent<span class="detail">NetworkPhysicsComponent now properly handles seamless travel &mdash; cleans up physics history, re-registers with the new world&rsquo;s solver, and preserves settings across the transition.</span></span>
       <span class="commit-tag tag-feature">feature</span>
     </div>
     <div class="commit-row">
       <span class="commit-num">23</span>
-      <span class="commit-hash">3ad2a74f859d</span>
+      <span class="commit-hash"><a href="https://github.com/EpicGames/UnrealEngine/commit/3ad2a74f859d">3ad2a74f859d</a></span>
       <span class="commit-date">2025-12-17</span>
-      <span class="commit-desc">Default radial force limit in falling = 0<span class="detail">No lateral force in air</span></span>
+      <span class="commit-desc">Default radial force limit in falling = 0<span class="detail">Changes the default RadialForceLimit in falling mode from a non-zero value to zero, meaning airborne characters no longer apply lateral force through the ground constraint by default. Prevents unintended air-strafing via the constraint solver.</span></span>
       <span class="commit-tag tag-physics">physics</span>
     </div>
     <div class="commit-row">
       <span class="commit-num">24</span>
-      <span class="commit-hash">15f4e4b7cecc</span>
+      <span class="commit-hash"><a href="https://github.com/EpicGames/UnrealEngine/commit/15f4e4b7cecc">15f4e4b7cecc</a></span>
       <span class="commit-date">2025-12-16</span>
-      <span class="commit-desc">Move ground query back to GenerateMove<span class="detail">Performance: fewer queries</span></span>
+      <span class="commit-desc">Move ground query back to GenerateMove<span class="detail">The floor sweep was moved to SimulationTick in an earlier change, but this meant an extra query per frame since GenerateMove also needed floor data. Moves it back to GenerateMove and shares the result, saving one sweep per character per frame.</span></span>
       <span class="commit-tag tag-perf">perf</span>
     </div>
   </div>
@@ -632,51 +496,51 @@
     <div class="commit-list">
       <div class="commit-row">
         <span class="commit-num">25</span>
-        <span class="commit-hash">4ee8638220b9</span>
+        <span class="commit-hash"><a href="https://github.com/EpicGames/UnrealEngine/commit/4ee8638220b9">4ee8638220b9</a></span>
         <span class="commit-date">2026-03-17</span>
-        <span class="commit-desc">Simulation context on Movement Mode functions<span class="detail">Public API change, touches all modes</span></span>
+        <span class="commit-desc">Simulation context on Movement Mode functions<span class="detail">Adds a simulation context parameter to GenerateMove, SimulationTick, Activate, and Deactivate. Step toward decoupling modes from Actor/ActorComponent. Breaking API change &mdash; all mode subclasses must update signatures.</span></span>
         <span class="commit-tag tag-api">api</span>
       </div>
       <div class="commit-row">
         <span class="commit-num">26</span>
-        <span class="commit-hash">082d3948c5fa</span>
+        <span class="commit-hash"><a href="https://github.com/EpicGames/UnrealEngine/commit/082d3948c5fa">082d3948c5fa</a></span>
         <span class="commit-date">2025-09-22</span>
-        <span class="commit-desc">Angular velocity FRotator &rarr; FVector<span class="detail">Public API change, callers must update</span></span>
+        <span class="commit-desc">Angular velocity FRotator &rarr; FVector<span class="detail">SetTransforms_WorldSpace now takes angular velocity as FVector instead of FRotator. Fixes a clamping bug where off-axis rotation limits weren&rsquo;t applied correctly. All callers must migrate.</span></span>
         <span class="commit-tag tag-api">api</span>
       </div>
       <div class="commit-row">
         <span class="commit-num">27</span>
-        <span class="commit-hash">75cf6ee4b0b3</span>
+        <span class="commit-hash"><a href="https://github.com/EpicGames/UnrealEngine/commit/75cf6ee4b0b3">75cf6ee4b0b3</a></span>
         <span class="commit-date">2026-02-10</span>
-        <span class="commit-desc">Rollback blackboard prediction<span class="detail">Large refactor, ownership moves to Simulation</span></span>
+        <span class="commit-desc">Rollback blackboard prediction<span class="detail">Blackboard gains a dedicated prediction slot in a circular buffer (no copy/alloc). Simulation object now owns the blackboard and controls external vs simulation access. Large refactor touching ownership and access patterns.</span></span>
         <span class="commit-tag tag-api">api</span>
       </div>
       <div class="commit-row">
         <span class="commit-num">28</span>
-        <span class="commit-hash">540b90ee395f</span>
+        <span class="commit-hash"><a href="https://github.com/EpicGames/UnrealEngine/commit/540b90ee395f">540b90ee395f</a></span>
         <span class="commit-date">2025-10-01</span>
-        <span class="commit-desc">Rollback blackboard support<span class="detail">Prerequisite for #27, mode change records</span></span>
+        <span class="commit-desc">Rollback blackboard support for Chaos Mover<span class="detail">Prerequisite for prediction. Adds mode change records as the first rollback entry type. Required before #27 can be applied.</span></span>
         <span class="commit-tag tag-api">api</span>
       </div>
       <div class="commit-row">
         <span class="commit-num">29</span>
-        <span class="commit-hash">635788ef7f6a</span>
+        <span class="commit-hash"><a href="https://github.com/EpicGames/UnrealEngine/commit/635788ef7f6a">635788ef7f6a</a></span>
         <span class="commit-date">2026-03-13</span>
-        <span class="commit-desc">Input production to InjectInputs_External<span class="detail">Unified networked/non-networked entry point</span></span>
+        <span class="commit-desc">Input production to InjectInputs_External<span class="detail">Moves input injection from the rewind callback to InjectInputs_External, creating a single entry point for both networked and non-networked games. Simplifies the input pipeline.</span></span>
         <span class="commit-tag tag-api">api</span>
       </div>
       <div class="commit-row">
         <span class="commit-num">30</span>
-        <span class="commit-hash">b24066f03fe3</span>
+        <span class="commit-hash"><a href="https://github.com/EpicGames/UnrealEngine/commit/b24066f03fe3">b24066f03fe3</a></span>
         <span class="commit-date">2025-09-16</span>
-        <span class="commit-desc">Add requested inputs struct<span class="detail">New input model</span></span>
+        <span class="commit-desc">Add requested inputs struct<span class="detail">New FRequestedInputs struct for movement modes to declare desired inputs. Foundation for the decoupled input model.</span></span>
         <span class="commit-tag tag-api">api</span>
       </div>
       <div class="commit-row">
         <span class="commit-num">31</span>
-        <span class="commit-hash">1791e20ca1ec</span>
+        <span class="commit-hash"><a href="https://github.com/EpicGames/UnrealEngine/commit/1791e20ca1ec">1791e20ca1ec</a></span>
         <span class="commit-date">2026-03-25</span>
-        <span class="commit-desc">Move executor / move-based mode<span class="detail">Composable move generation</span></span>
+        <span class="commit-desc">Move executor / move-based mode<span class="detail">Introduces MoveExecutor and MoveSource abstractions, letting modes delegate proposed move generation to layered moves. Enables composable movement without subclassing.</span></span>
         <span class="commit-tag tag-api">api</span>
       </div>
     </div>
@@ -687,58 +551,58 @@
     <div class="commit-list">
       <div class="commit-row">
         <span class="commit-num">32</span>
-        <span class="commit-hash">05c7214968af</span>
+        <span class="commit-hash"><a href="https://github.com/EpicGames/UnrealEngine/commit/05c7214968af">05c7214968af</a></span>
         <span class="commit-date">2026-03-05</span>
-        <span class="commit-desc">Layered moves scheduling<span class="detail">Networked layered moves, issuance frames</span></span>
+        <span class="commit-desc">Layered moves scheduling<span class="detail">Adds issuance frames for layered moves and instant effects. Rollback now only rewinds commands issued after the target time. Networking of moves is not yet included.</span></span>
         <span class="commit-tag tag-feature">feature</span>
       </div>
       <div class="commit-row">
         <span class="commit-num">33</span>
-        <span class="commit-hash">444cf7bf6fea</span>
+        <span class="commit-hash"><a href="https://github.com/EpicGames/UnrealEngine/commit/444cf7bf6fea">444cf7bf6fea</a></span>
         <span class="commit-date">2026-03-17</span>
-        <span class="commit-desc">Trajectory Prediction for ChaosMover<span class="detail">GASP integration</span></span>
+        <span class="commit-desc">Trajectory Prediction for ChaosMover<span class="detail">Integrates GASP trajectory prediction. The mover can now sample future positions/velocities by stepping the simulation forward, used for animation motion matching.</span></span>
         <span class="commit-tag tag-feature">feature</span>
       </div>
       <div class="commit-row">
         <span class="commit-num">34</span>
-        <span class="commit-hash">5f64543cf70e</span>
+        <span class="commit-hash"><a href="https://github.com/EpicGames/UnrealEngine/commit/5f64543cf70e">5f64543cf70e</a></span>
         <span class="commit-date">2026-01-09</span>
-        <span class="commit-desc">Server-side launch inputs<span class="detail">Server-authoritative effects</span></span>
+        <span class="commit-desc">Server-side launch inputs<span class="detail">Adds optional server-authoritative inputs for launch effects (knockback, explosions). Clients receive and apply them during resim rather than predicting independently.</span></span>
         <span class="commit-tag tag-feature">feature</span>
       </div>
       <div class="commit-row">
         <span class="commit-num">35</span>
-        <span class="commit-hash">231c3e6d4288</span>
+        <span class="commit-hash"><a href="https://github.com/EpicGames/UnrealEngine/commit/231c3e6d4288">231c3e6d4288</a></span>
         <span class="commit-date">2026-01-07</span>
-        <span class="commit-desc">Crouch Flow Improvements<span class="detail">May be useful later</span></span>
+        <span class="commit-desc">Crouch Flow Improvements<span class="detail">Improved crouch enter/exit transitions in ChaosMover. Better handling of overhead clearance checks and capsule resize timing.</span></span>
         <span class="commit-tag tag-feature">feature</span>
       </div>
       <div class="commit-row">
         <span class="commit-num">36</span>
-        <span class="commit-hash">43837d070945</span>
+        <span class="commit-hash"><a href="https://github.com/EpicGames/UnrealEngine/commit/43837d070945">43837d070945</a></span>
         <span class="commit-date">2025-11-27</span>
-        <span class="commit-desc">Angular velocity option in walking/falling<span class="detail">Character rotation control</span></span>
+        <span class="commit-desc">Angular velocity option in walking/falling<span class="detail">Walking mode can now optionally apply angular velocity to the constraint target. Falling mode gets improved angular velocity calculation for more natural in-air rotation.</span></span>
         <span class="commit-tag tag-feature">feature</span>
       </div>
       <div class="commit-row">
         <span class="commit-num">37</span>
-        <span class="commit-hash">5b3303615caf</span>
+        <span class="commit-hash"><a href="https://github.com/EpicGames/UnrealEngine/commit/5b3303615caf">5b3303615caf</a></span>
         <span class="commit-date">2025-10-07</span>
-        <span class="commit-desc">Bubble Resim: ShouldResim<span class="detail">Selective resimulation</span></span>
+        <span class="commit-desc">Bubble Resim: ShouldResim<span class="detail">Adds a ShouldResim function for ChaosMover used in bubble resimulation. Allows the system to skip resim for characters that haven&rsquo;t been affected by the correction, reducing resim scope.</span></span>
         <span class="commit-tag tag-feature">feature</span>
       </div>
       <div class="commit-row">
         <span class="commit-num">38</span>
-        <span class="commit-hash">9beb26399c50</span>
+        <span class="commit-hash"><a href="https://github.com/EpicGames/UnrealEngine/commit/9beb26399c50">9beb26399c50</a></span>
         <span class="commit-date">2025-10-07</span>
-        <span class="commit-desc">Custom chaos landed event data<span class="detail">Extensible events</span></span>
+        <span class="commit-desc">Custom chaos landed event data<span class="detail">The landed event can now carry custom payload data, allowing game code to attach context (impact velocity, surface type) without subclassing the event.</span></span>
         <span class="commit-tag tag-feature">feature</span>
       </div>
       <div class="commit-row">
         <span class="commit-num">39</span>
-        <span class="commit-hash">858c1e146f21</span>
+        <span class="commit-hash"><a href="https://github.com/EpicGames/UnrealEngine/commit/858c1e146f21">858c1e146f21</a></span>
         <span class="commit-date">2025-11-12</span>
-        <span class="commit-desc">Setup/validation for easier ChaosMover start<span class="detail">UX improvement</span></span>
+        <span class="commit-desc">Setup and validation for easier start<span class="detail">Adds validation checks when setting up ChaosMover components, catching common misconfiguration (missing settings, wrong backend) at editor time rather than runtime.</span></span>
         <span class="commit-tag tag-feature">feature</span>
       </div>
     </div>
@@ -749,30 +613,30 @@
     <div class="commit-list">
       <div class="commit-row">
         <span class="commit-num">40</span>
-        <span class="commit-hash">010cf0d56c9d</span>
+        <span class="commit-hash"><a href="https://github.com/EpicGames/UnrealEngine/commit/010cf0d56c9d">010cf0d56c9d</a></span>
         <span class="commit-date">2025-10-14</span>
-        <span class="commit-desc">Sprint landing fixes<span class="detail">Ground query at high speed — may be useful</span></span>
+        <span class="commit-desc">Sprint landing fixes<span class="detail">Falling mode ground query extended to not miss the floor at high fall speeds. Adds OnJumped simulation event for FortPawn to maintain sprint state through jump-land cycles. Newton-specific but the ground query fix is universally applicable.</span></span>
         <span class="commit-tag tag-newton">newton</span>
       </div>
       <div class="commit-row">
         <span class="commit-num">41</span>
-        <span class="commit-hash">654fbb966987</span>
+        <span class="commit-hash"><a href="https://github.com/EpicGames/UnrealEngine/commit/654fbb966987">654fbb966987</a></span>
         <span class="commit-date">2025-11-04</span>
-        <span class="commit-desc">Gravity ignored when jumping<span class="detail">JumpForceTimeRemaining</span></span>
+        <span class="commit-desc">Gravity ignored when jumping<span class="detail">Implements JumpForceTimeRemaining on Newton&rsquo;s character to suppress gravity during the initial jump phase, matching the CMC jump model.</span></span>
         <span class="commit-tag tag-newton">newton</span>
       </div>
       <div class="commit-row">
         <span class="commit-num">42</span>
-        <span class="commit-hash">95ec23ed56ff</span>
+        <span class="commit-hash"><a href="https://github.com/EpicGames/UnrealEngine/commit/95ec23ed56ff">95ec23ed56ff</a></span>
         <span class="commit-date">2025-11-26</span>
-        <span class="commit-desc">Clamp velocity to max speed in falling<span class="detail">AI velocity clamping</span></span>
+        <span class="commit-desc">Clamp velocity to max speed in falling<span class="detail">Optional flag in falling mode to always clamp requested velocity to MaxSpeed. Off by default. Introduced to fix AI feeding arbitrarily large velocities.</span></span>
         <span class="commit-tag tag-newton">newton</span>
       </div>
       <div class="commit-row">
         <span class="commit-num">43</span>
-        <span class="commit-hash">2b62e972be07</span>
+        <span class="commit-hash"><a href="https://github.com/EpicGames/UnrealEngine/commit/2b62e972be07">2b62e972be07</a></span>
         <span class="commit-date">2025-11-10</span>
-        <span class="commit-desc">Computing ground velocity<span class="detail">Newton ground detection</span></span>
+        <span class="commit-desc">Computing ground velocity<span class="detail">Newton-specific ground velocity computation for based movement. Feeds into the based movement system for characters riding moving platforms.</span></span>
         <span class="commit-tag tag-newton">newton</span>
       </div>
     </div>
@@ -783,51 +647,51 @@
     <div class="commit-list">
       <div class="commit-row">
         <span class="commit-num">44</span>
-        <span class="commit-hash">d307c3426264</span>
+        <span class="commit-hash"><a href="https://github.com/EpicGames/UnrealEngine/commit/d307c3426264">d307c3426264</a></span>
         <span class="commit-date">2025-12-04</span>
-        <span class="commit-desc">Tracing network physics to CVD</span>
+        <span class="commit-desc">Tracing network physics to CVD<span class="detail">Writes NetworkPhysicsComponent data (input decay, lag scaling) into Chaos Visual Debugger for inspection.</span></span>
         <span class="commit-tag tag-debug">debug</span>
       </div>
       <div class="commit-row">
         <span class="commit-num">45</span>
-        <span class="commit-hash">64bd08ed109d</span>
+        <span class="commit-hash"><a href="https://github.com/EpicGames/UnrealEngine/commit/64bd08ed109d">64bd08ed109d</a></span>
         <span class="commit-date">2025-11-24</span>
-        <span class="commit-desc">Performance scopes</span>
+        <span class="commit-desc">Performance scopes<span class="detail">Adds SCOPE_CYCLE_COUNTER markers to key ChaosMover code paths for profiling in Unreal Insights.</span></span>
         <span class="commit-tag tag-debug">debug</span>
       </div>
       <div class="commit-row">
         <span class="commit-num">46</span>
-        <span class="commit-hash">c1bbbb9b6267</span>
+        <span class="commit-hash"><a href="https://github.com/EpicGames/UnrealEngine/commit/c1bbbb9b6267">c1bbbb9b6267</a></span>
         <span class="commit-date">2025-11-07</span>
-        <span class="commit-desc">CVD trace in OnModifyContacts</span>
+        <span class="commit-desc">CVD trace in OnModifyContacts<span class="detail">Records contact modification decisions to CVD so you can see which contacts were disabled and why.</span></span>
         <span class="commit-tag tag-debug">debug</span>
       </div>
       <div class="commit-row">
         <span class="commit-num">47</span>
-        <span class="commit-hash">b669783a552c</span>
+        <span class="commit-hash"><a href="https://github.com/EpicGames/UnrealEngine/commit/b669783a552c">b669783a552c</a></span>
         <span class="commit-date">2025-11-18</span>
-        <span class="commit-desc">Tracing Instant Movement Effects to CVD</span>
+        <span class="commit-desc">Tracing Instant Movement Effects to CVD<span class="detail">IMEs (teleport, launch) now emit CVD events showing when they were applied and their parameters.</span></span>
         <span class="commit-tag tag-debug">debug</span>
       </div>
       <div class="commit-row">
         <span class="commit-num">48</span>
-        <span class="commit-hash">220a702fbfbf</span>
+        <span class="commit-hash"><a href="https://github.com/EpicGames/UnrealEngine/commit/220a702fbfbf">220a702fbfbf</a></span>
         <span class="commit-date">2025-11-07</span>
-        <span class="commit-desc">TeleportTo debug effect</span>
+        <span class="commit-desc">TeleportTo debug effect<span class="detail">A debug-only instant movement effect that teleports the character. Useful for testing resim behavior with forced position changes.</span></span>
         <span class="commit-tag tag-debug">debug</span>
       </div>
       <div class="commit-row">
         <span class="commit-num">49</span>
-        <span class="commit-hash">1d164be537b4</span>
+        <span class="commit-hash"><a href="https://github.com/EpicGames/UnrealEngine/commit/1d164be537b4">1d164be537b4</a></span>
         <span class="commit-date">2025-10-02</span>
-        <span class="commit-desc">Local-only teleport for debugging desyncs</span>
+        <span class="commit-desc">Local-only teleport for desync debugging<span class="detail">Console command that teleports the character on the local machine only (no replication), forcing a desync and resimulation. Useful for verifying resim correctness.</span></span>
         <span class="commit-tag tag-debug">debug</span>
       </div>
       <div class="commit-row">
         <span class="commit-num">50</span>
-        <span class="commit-hash">a0e12af64e9e</span>
+        <span class="commit-hash"><a href="https://github.com/EpicGames/UnrealEngine/commit/a0e12af64e9e">a0e12af64e9e</a></span>
         <span class="commit-date">2025-10-30</span>
-        <span class="commit-desc">CodeFixup: ~Type() = default</span>
+        <span class="commit-desc">CodeFixup: ~Type() = default<span class="detail">Automated code cleanup replacing empty destructors with = default across the engine.</span></span>
         <span class="commit-tag tag-debug">cleanup</span>
       </div>
     </div>
@@ -844,66 +708,66 @@
   <div class="commit-list">
     <div class="commit-row">
       <span class="commit-num">51</span>
-      <span class="commit-hash">574f0e31a686</span>
+      <span class="commit-hash"><a href="https://github.com/EpicGames/UnrealEngine/commit/574f0e31a686">574f0e31a686</a></span>
       <span class="commit-date">2026-03-24</span>
-      <span class="commit-desc">Fix crash from legacy delta serialization<span class="detail">Serialization flow crash</span></span>
+      <span class="commit-desc">Fix crash from legacy delta serialization<span class="detail">The legacy serialization path in NetworkPhysicsComponent could crash when processing delta state with an invalid component reference. Adds null check before dereferencing.</span></span>
       <span class="commit-tag tag-crash">crash</span>
     </div>
     <div class="commit-row">
       <span class="commit-num">52</span>
-      <span class="commit-hash">9fb82fe626d1</span>
+      <span class="commit-hash"><a href="https://github.com/EpicGames/UnrealEngine/commit/9fb82fe626d1">9fb82fe626d1</a></span>
       <span class="commit-date">2026-03-16</span>
-      <span class="commit-desc">Resim with pending-deletion objects<span class="detail">Desynced particle leniency</span></span>
+      <span class="commit-desc">Resim with pending-deletion objects<span class="detail">Particles pending deletion are now properly disabled during resim rewind. Adds precision leniency when checking if a particle is desynced (quantized FRepMovement loses precision). Also avoids caching pre-resim state for disabled particles.</span></span>
       <span class="commit-tag tag-desync">desync</span>
     </div>
     <div class="commit-row">
       <span class="commit-num">53</span>
-      <span class="commit-hash">a4b9b260b103</span>
+      <span class="commit-hash"><a href="https://github.com/EpicGames/UnrealEngine/commit/a4b9b260b103">a4b9b260b103</a></span>
       <span class="commit-date">2026-02-27</span>
-      <span class="commit-desc">Fix multiple history registration<span class="detail">Resim perf collapse guard</span></span>
+      <span class="commit-desc">Fix multiple history registration<span class="detail">Registering the same object multiple times corrupted the weak pointer array. Also adds a guard against resimulation triggering a cascading performance collapse (unbounded resim depth).</span></span>
       <span class="commit-tag tag-crash">crash</span>
     </div>
     <div class="commit-row">
       <span class="commit-num">54</span>
-      <span class="commit-hash">dd1b8732293b</span>
+      <span class="commit-hash"><a href="https://github.com/EpicGames/UnrealEngine/commit/dd1b8732293b">dd1b8732293b</a></span>
       <span class="commit-date">2026-01-12</span>
-      <span class="commit-desc">Fix SettingsDataAsset values getting stomped<span class="detail">Settings override bug</span></span>
+      <span class="commit-desc">Fix SettingsDataAsset values getting stomped<span class="detail">Redundant input/state settings in NetworkPhysicsSettingsDataAsset were being overwritten by defaults during initialization. Fix limits the stomp to only those specific fields.</span></span>
       <span class="commit-tag tag-desync">desync</span>
     </div>
     <div class="commit-row">
       <span class="commit-num">55</span>
-      <span class="commit-hash">a29d1d2a7451</span>
+      <span class="commit-hash"><a href="https://github.com/EpicGames/UnrealEngine/commit/a29d1d2a7451">a29d1d2a7451</a></span>
       <span class="commit-date">2025-12-10</span>
-      <span class="commit-desc">Fix state on frozen particle during resim<span class="detail">Flag not cleared</span></span>
+      <span class="commit-desc">Fix state on frozen particle during resim<span class="detail">State/input applied to a frozen (sleeping) particle during resim would persist into the next normal frame because the &ldquo;was-applied-during-resim&rdquo; flag wasn&rsquo;t cleared. Causes subtle desync after islands wake up.</span></span>
       <span class="commit-tag tag-desync">desync</span>
     </div>
     <div class="commit-row">
       <span class="commit-num">56</span>
-      <span class="commit-hash">72dc49ea1703</span>
+      <span class="commit-hash"><a href="https://github.com/EpicGames/UnrealEngine/commit/72dc49ea1703">72dc49ea1703</a></span>
       <span class="commit-date">2025-12-09</span>
-      <span class="commit-desc">Fix GetForwardPredictionTime() computation<span class="detail">Uses cheaper GetLastReceivedServerFrame()</span></span>
+      <span class="commit-desc">Fix GetForwardPredictionTime() computation<span class="detail">Was using GetLatestReceivedTargetStateFrame() which takes a physics read lock. Switched to the cheaper GetLastReceivedServerFrame() which gives the same result without the lock contention.</span></span>
       <span class="commit-tag tag-perf">perf</span>
     </div>
     <div class="commit-row">
       <span class="commit-num">57</span>
-      <span class="commit-hash">379f1f0b1ed4</span>
+      <span class="commit-hash"><a href="https://github.com/EpicGames/UnrealEngine/commit/379f1f0b1ed4">379f1f0b1ed4</a></span>
       <span class="commit-date">2025-12-03</span>
-      <span class="commit-desc">Move state recording to post-solve<span class="detail">1 frame less resim lag</span></span>
+      <span class="commit-desc">Move state recording to post-solve<span class="detail">Custom state is now recorded after the solver runs (for the start of next frame) rather than before. The game thread can network the state one frame earlier, reducing resim depth by one frame.</span></span>
       <span class="commit-tag tag-perf">perf</span>
     </div>
     <div class="commit-row">
       <span class="commit-num">58</span>
-      <span class="commit-hash">d3df8db567df</span>
+      <span class="commit-hash"><a href="https://github.com/EpicGames/UnrealEngine/commit/d3df8db567df">d3df8db567df</a></span>
       <span class="commit-date">2025-11-13</span>
-      <span class="commit-desc">Clamp resim frame search distance<span class="detail">Resim stability</span></span>
+      <span class="commit-desc">Clamp resim frame search distance<span class="detail">When searching backwards for a valid resim start frame, an unbounded search could walk very far back and pick an incomplete frame. Now clamped to a reasonable window, falling back to the most recent complete frame.</span></span>
       <span class="commit-tag tag-desync">desync</span>
     </div>
   </div>
 </section>
 
 <footer>
-  Generated by Claude &middot; Source: <code>f:/Engine/BL/UnrealEngine</code> ue5-main vs 5.7.4-release &middot;
-  Backout commits (918609fe, cca897b3, 5acdc9f0) excluded &mdash; re-submitted versions used
+  Generated by Claude &middot; Commits link to <a href="https://github.com/EpicGames/UnrealEngine">EpicGames/UnrealEngine</a> (requires access) &middot;
+  Backout commits excluded &mdash; re-submitted versions used
 </footer>
 
 </div>
